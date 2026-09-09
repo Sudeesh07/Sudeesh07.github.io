@@ -1,1 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sudeesh Muthu Murugesan — Robotics · CV · ML</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#000000;
+  --panel:#0d0d0d;
+  --line:#242424;
+  --line-bright:#3a3a3a;
+  --ink:#f5f5f5;
+  --ink-dim:#a3a3a3;
+  --ink-faint:#666666;
+  --signal:#ffffff;
+  --signal-deep:#8a8a8a;
+  --probe:#bdbdbd;
+  --mono:'Spline Sans Mono',monospace;
+  --disp:'Space Grotesk',sans-serif;
+  --serif:'Newsreader',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--void);
+  color:var(--ink);
+  font-family:var(--disp);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--signal);color:var(--void)}
+a{color:inherit;text-decoration:none}
 
+/* ---- grid backdrop ---- */
+.grid-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:64px 64px;
+  opacity:.25;
+  mask-image:radial-gradient(ellipse 90% 70% at 50% 20%,#000 30%,transparent 80%);
+}
+
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 28px}
+
+/* ---- nav ---- */
+nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(0,0,0,.82);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{max-width:1080px;margin:0 auto;padding:14px 28px;display:flex;justify-content:space-between;align-items:center}
+.brand{font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:var(--ink)}
+.brand b{color:var(--signal)}
+.nav-links{display:flex;gap:26px;font-family:var(--mono);font-size:12px;color:var(--ink-dim)}
+.nav-links a{transition:color .2s}
+.nav-links a:hover{color:var(--signal)}
+@media(max-width:640px){.nav-links{display:none}}
+
+/* ---- hero ---- */
+header{padding:90px 0 70px;position:relative}
+.eyebrow{font-family:var(--mono);font-size:12px;color:var(--signal);letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--signal)}
+h1{
+  font-family:var(--disp);font-weight:700;
+  font-size:clamp(2.6rem,7vw,5rem);
+  line-height:.98;letter-spacing:-.03em;margin-bottom:26px;
+}
+h1 .glow{color:var(--signal)}
+.lede{font-family:var(--serif);font-size:clamp(1.05rem,2.2vw,1.4rem);color:var(--ink-dim);max-width:620px;line-height:1.6}
+.lede em{color:var(--ink);font-style:italic}
+.hero-meta{display:flex;flex-wrap:wrap;gap:28px;margin-top:40px;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+.hero-meta span b{color:var(--ink);font-weight:500}
+.contact-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.btn{
+  font-family:var(--mono);font-size:12px;padding:11px 18px;
+  border:1px solid var(--line-bright);border-radius:2px;
+  color:var(--ink-dim);transition:all .2s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn:hover{border-color:var(--signal);color:var(--signal);background:rgba(255,255,255,.06)}
+.btn.solid{background:var(--signal);color:var(--void);border-color:var(--signal);font-weight:500}
+.btn.solid:hover{background:#e6e6e6;color:var(--void)}
+
+/* ---- section frame ---- */
+section{padding:64px 0;border-top:1px solid var(--line)}
+.sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:44px}
+.sec-num{font-family:var(--mono);font-size:13px;color:var(--signal)}
+.sec-title{font-family:var(--disp);font-weight:600;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-.02em}
+.sec-tag{font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-left:auto}
+@media(max-width:560px){.sec-tag{display:none}}
+
+/* ---- about ---- */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:44px}
+@media(max-width:760px){.about-grid{grid-template-columns:1fr;gap:32px}}
+.about-body p{font-family:var(--serif);font-size:1.08rem;color:var(--ink-dim);margin-bottom:18px;line-height:1.7}
+.about-body p strong{color:var(--ink);font-weight:500}
+.facts{border:1px solid var(--line);border-radius:3px;padding:6px 0;align-self:start}
+.fact{display:flex;justify-content:space-between;gap:12px;padding:13px 18px;border-bottom:1px solid var(--line);font-size:13px}
+.fact:last-child{border-bottom:none}
+.fact .k{font-family:var(--mono);color:var(--ink-faint);font-size:11px}
+.fact .v{color:var(--ink);text-align:right;font-weight:500}
+.fact .v small{color:var(--signal);font-family:var(--mono)}
+
+/* ---- projects ---- */
+.proj{
+  display:grid;grid-template-columns:200px 1fr;gap:36px;
+  padding:34px 0;border-bottom:1px solid var(--line);
+  position:relative;
+}
+.proj:last-child{border-bottom:none}
+@media(max-width:720px){.proj{grid-template-columns:1fr;gap:18px}}
+.proj-date{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-top:14px;letter-spacing:.03em}
+.proj-name{font-family:var(--disp);font-weight:600;font-size:1.35rem;letter-spacing:-.02em;margin-bottom:6px;transition:color .2s}
+.proj:hover .proj-name{color:var(--signal)}
+.proj-sub{font-family:var(--serif);font-style:italic;color:var(--ink-dim);font-size:1rem;margin-bottom:16px}
+.proj-pts{list-style:none;display:flex;flex-direction:column;gap:9px}
+.proj-pts li{padding-left:18px;position:relative;font-size:.95rem;color:var(--ink-dim);line-height:1.55}
+.proj-pts li::before{content:"›";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+.proj-pts li b{color:var(--ink);font-weight:500}
+.guide{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-top:10px}
+
+/* ---- experience ---- */
+.xp{display:grid;grid-template-columns:1fr;gap:0}
+.xp-item{padding:28px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 2fr;gap:36px}
+.xp-item:last-child{border-bottom:none}
+@media(max-width:720px){.xp-item{grid-template-columns:1fr;gap:14px}}
+.xp-org{font-family:var(--disp);font-weight:600;font-size:1.25rem}
+.xp-org .role{display:block;font-family:var(--mono);font-size:12px;color:var(--signal);font-weight:400;margin-top:5px;letter-spacing:.03em}
+.xp-when{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-top:7px}
+.xp-pts{list-style:none;display:flex;flex-direction:column;gap:9px}
+.xp-pts li{padding-left:18px;position:relative;font-size:.95rem;color:var(--ink-dim);line-height:1.55}
+.xp-pts li::before{content:"·";position:absolute;left:5px;color:var(--probe);font-size:1.4em;line-height:1}
+.xp-pts li b{color:var(--ink);font-weight:500}
+
+/* ---- skills ---- */
+.skill-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+@media(max-width:640px){.skill-grid{grid-template-columns:1fr}}
+.skill-cell{background:var(--void);padding:22px}
+.skill-cell h4{font-family:var(--mono);font-size:11px;color:var(--signal);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-family:var(--mono);font-size:12px;color:var(--ink-dim);border:1px solid var(--line-bright);border-radius:2px;padding:4px 9px;transition:all .18s}
+.chip:hover{color:var(--signal);border-color:var(--signal-deep)}
+
+/* ---- two col lists (certs / achievements) ---- */
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+@media(max-width:680px){.dual{grid-template-columns:1fr;gap:36px}}
+.sub-h{font-family:var(--mono);font-size:11px;color:var(--signal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.sub-h::after{content:"";flex:1;height:1px;background:var(--line)}
+.list-item{padding:14px 0;border-bottom:1px solid var(--line)}
+.list-item:last-child{border-bottom:none}
+.li-title{font-weight:500;font-size:.98rem;margin-bottom:3px}
+.li-meta{font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+.li-desc{font-size:.9rem;color:var(--ink-dim);margin-top:6px;line-height:1.5}
+.award-tag{font-family:var(--mono);font-size:10px;color:var(--probe);border:1px solid var(--probe);border-radius:2px;padding:2px 6px;margin-right:8px}
+
+/* ---- leadership ---- */
+.lead-item{padding:22px 0;border-bottom:1px solid var(--line)}
+.lead-item:last-child{border-bottom:none}
+.lead-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.lead-role{font-family:var(--disp);font-weight:600;font-size:1.1rem}
+.lead-role span{display:block;font-family:var(--mono);font-size:12px;color:var(--ink-dim);font-weight:400;margin-top:3px}
+.lead-when{font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+
+/* ---- footer ---- */
+footer{border-top:1px solid var(--line);padding:54px 0 70px;text-align:center}
+.f-big{font-family:var(--disp);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.02em;margin-bottom:10px}
+.f-big a{color:var(--signal);transition:opacity .2s}
+.f-big a:hover{opacity:.7}
+.f-sub{font-family:var(--serif);font-style:italic;color:var(--ink-dim);margin-bottom:28px}
+.f-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+.f-note{font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="nav-in">
+    <div class="brand" aria-hidden="true"></div>
+    <div class="nav-links">
+      <a href="#about">about</a>
+      <a href="#work">research</a>
+      <a href="#experience">experience</a>
+      <a href="#skills">skills</a>
+      <a href="#more">more</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow reveal">M.S. Computer Science · University of Virginia</div>
+    <h1 class="reveal">Sudeesh Muthu<br>Murugesan<span class="glow">.</span></h1>
+    <p class="lede reveal">I build intelligent systems at the intersection of <em>robotics, computer vision, and machine learning</em> ranging from 3D scientific imaging to LiDAR perception and autonomous navigation.</p>
+    <div class="hero-meta reveal">
+      <span><b>Focus</b> Robotics · Computer Vision · Machine Learning</span>
+      <span><b>Master of Science Computer Science</b> 2026 — 2027</span>
+    </div>
+    <div class="contact-row reveal">
+      <a class="btn solid" href="mailto:sudeeshmuthum@gmail.com">↗ sudeeshmuthum@gmail.com</a>
+      <a class="btn" href="https://github.com/Sudeesh07" data-link="github">GitHub</a>
+      <a class="btn" href="https://www.linkedin.com/in/sudeesh-m-66b88a202/" data-link="linkedin">LinkedIn</a>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-num">00</span><span class="sec-title">About</span><span class="sec-tag">// who_am_i</span></div>
+    <div class="about-grid">
+      <div class="about-body reveal">
+        <p>I'm a graduate of Vellore Institute of Technology, Chennai, India and currently pursuing an <strong>M.S. in Computer Science at the University of Virginia</strong>, with a focus on <strong>robotics, computer vision, and machine learning</strong>. I enjoy building systems that connect perception, learning, and real-world decision making.</p>
+        <p>My previous work spans <strong>3D segmentation of cryo-ET tomograms</strong>, <strong>stereo image super-resolution</strong>, and <strong>causal counterfactual explanations</strong> for medical time-series. I've also worked on LiDAR-based autonomous navigation at IIT Madras and edge-cloud diffusion systems at Samsung.</p>
+      </div>
+      <div class="facts reveal">
+        <div class="fact"><span class="k">DEGREE</span><span class="v">M.S. Computer Science<br><small>University of Virginia</small></span></div>
+        <div class="fact"><span class="k">YEARS</span><span class="v">2026 — 2027</span></div>
+        <!-- <div class="fact"><span class="k">GPA</span><span class="v">8.69 <small>/10</small></span></div> -->
+        <div class="fact"><span class="k">BASED</span><span class="v">Charlottesville, VA, USA</span></div>
+        <div class="fact"><span class="k">STACK</span><span class="v">Python · C++ · TensorFlow · PyTorch · ROS2 · CUDA · SolidWorks</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-num">01</span><span class="sec-title">Research &amp; Projects</span><span class="sec-tag">// 4 selected</span></div>
+
+    <article class="proj reveal">
+      <div class="proj-viz">
+        <div class="proj-date">APR 2025 — APR 2026</div>
+      </div>
+      <div>
+        <h3 class="proj-name">Cryo-ET Segmentation</h3>
+        <p class="proj-sub">Ensemble deep learning for 3D protein structure recovery</p>
+        <ul class="proj-pts">
+          <li>Built an <b>ensemble framework</b> for 3D segmentation of cryo-electron tomography tomograms, resolving protein structures at nanometer resolution.</li>
+          <li>Designed and trained multiple <b>3D U-Net</b> variants with complementary feature extraction — multi-scale convolution, residual connections, and attention.</li>
+          <li>Fused predictions across variants via ensemble techniques to lift segmentation accuracy.</li>
+        </ul>
+        <div class="guide">Guide · Dr. Anandan P</div>
+      </div>
+    </article>
+
+    <article class="proj reveal">
+      <div class="proj-viz">
+        <div class="proj-date">AUG 2025 — APR 2026</div>
+      </div>
+      <div>
+        <h3 class="proj-name">DEPA-Net · Stereo Super-Resolution</h3>
+        <p class="proj-sub">Geometry-aware reconstruction from stereo pairs</p>
+        <ul class="proj-pts">
+          <li>Proposed <b>DEPA-Net</b>, combining deformable epipolar paired-attention, disparity-aware occlusion fusion with confidence estimation, and a multi-phase training curriculum.</li>
+          <li>Implemented dense cross-view interaction via interleaved <b>SCAM modules</b> and bidirectional DEPA at every encoder scale.</li>
+          <li>Added a correlation-prior bottleneck and frequency-aware refinement branch for high-frequency detail recovery.</li>
+        </ul>
+        <div class="guide">Guide · Dr. Hemalatha K</div>
+      </div>
+    </article>
+
+    <article class="proj reveal">
+      <div class="proj-viz">
+        <div class="proj-date">AUG 2025 — DEC 2025</div>
+      </div>
+      <div>
+        <h3 class="proj-name">Causal Counterfactuals for ECG Anomalies</h3>
+        <p class="proj-sub">Explainable time-series anomaly detection</p>
+        <ul class="proj-pts">
+          <li>Developed a <b>causal framework</b> for interpreting black-box ECG anomaly detection models.</li>
+          <li>Implemented causal discovery via <b>PCMCI+, VAR-LASSO,</b> and Structural Causal Models.</li>
+          <li>Integrated Isolation Forest, LOF, and OCSVM with SCM-based interventions to generate causally consistent counterfactual explanations.</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-num">02</span><span class="sec-title">Experience</span><span class="sec-tag">// internships</span></div>
+    <div class="xp">
+      <div class="xp-item reveal">
+        <div>
+          <div class="xp-org">IIT Madras<span class="role">Robotics Intern</span></div>
+          <div class="xp-when">MAY 2025 — JUL 2025 · Chennai</div>
+        </div>
+        <ul class="xp-pts">
+          <li>Developed a <b>LiDAR-based freespace prediction</b> pipeline for autonomous robot navigation using reinforcement learning and temporal scene forecasting.</li>
+          <li>Built an end-to-end perception stack converting LiDAR scans into occupancy grids; trained <b>PPO navigation agents</b> integrated with a ConvLSTM future-freespace predictor.</li>
+        </ul>
+      </div>
+      <div class="xp-item reveal">
+        <div>
+          <div class="xp-org">Samsung<span class="role">AI Intern</span></div>
+          <div class="xp-when">FEB 2025 — AUG 2025 · Chennai</div>
+        </div>
+        <ul class="xp-pts">
+          <li>Developed an <b>adaptive split-computing framework</b> for deploying diffusion models across edge devices and cloud under dynamic network conditions.</li>
+          <li>Designed a <b>PPO-based controller</b> to optimize model partitioning, quantization, and privacy-preserving inference in real time.</li>
+          <li>Implemented differential privacy, adaptive early exiting, and bandwidth-aware scheduling to balance latency, privacy, and image quality.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-num">03</span><span class="sec-title">Skills</span><span class="sec-tag">// stack</span></div>
+    <div class="skill-grid reveal">
+      <div class="skill-cell">
+        <h4>Languages</h4>
+        <div class="chips"><span class="chip">Python</span><span class="chip">C++</span><span class="chip">R</span><span class="chip">MATLAB</span></div>
+      </div>
+      <div class="skill-cell">
+        <h4>ML &amp; AI</h4>
+        <div class="chips"><span class="chip">Deep Learning</span><span class="chip">Reinforcement Learning</span><span class="chip">Computer Vision</span><span class="chip">Generative AI</span><span class="chip">Explainable AI</span><span class="chip">Diffusion Models</span><span class="chip">Time-Series</span><span class="chip">Representation Learning</span></div>
+      </div>
+      <div class="skill-cell">
+        <h4>Frameworks</h4>
+        <div class="chips"><span class="chip">PyTorch</span><span class="chip">TensorFlow</span><span class="chip">Scikit-learn</span><span class="chip">OpenCV</span><span class="chip">Keras</span><span class="chip">NumPy</span><span class="chip">Pandas</span></div>
+      </div>
+      <div class="skill-cell">
+        <h4>Robotics &amp; Simulation</h4>
+        <div class="chips"><span class="chip">ROS2</span><span class="chip">Gazebo</span><span class="chip">LiDAR Processing</span><span class="chip">SLAM</span><span class="chip">Autonomous Navigation</span><span class="chip">SolidWorks</span></div>
+      </div>
+      <div class="skill-cell">
+        <h4>Tools &amp; Platforms</h4>
+        <div class="chips"><span class="chip">Docker</span><span class="chip">Git</span><span class="chip">Linux</span><span class="chip">CUDA</span><span class="chip">SolidWorks</span><span class="chip">Tableau</span><span class="chip">Power BI</span></div>
+      </div>
+      <div class="skill-cell">
+        <h4>Research Areas</h4>
+        <div class="chips"><span class="chip">Cryo-ET Segmentation</span><span class="chip">Stereo Vision</span><span class="chip">Medical Imaging</span><span class="chip">Edge AI</span><span class="chip">Multi-Agent Systems</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="more">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-num">04</span><span class="sec-title">Beyond the Lab</span><span class="sec-tag">// leadership · awards</span></div>
+
+    <div class="lead-block reveal" style="margin-bottom:48px">
+      <div class="sub-h">Leadership &amp; Activities</div>
+      <div class="lead-item">
+        <div class="lead-top">
+          <div class="lead-role">AI/ML Lead<span>Microsoft Innovations Club (MIC) · VIT Chennai, India</span></div>
+          <div class="lead-when">APR 2024 — APR 2025</div>
+        </div>
+        <ul class="xp-pts">
+          <li>Led and mentored a team of <b>20+ students</b> through ML, neural networks, CNNs, backpropagation, and PyTorch-based workflows.</li>
+          <li>Designed structured AI/ML learning roadmaps and ran workshops guiding members through end-to-end CV and ML projects.</li>
+        </ul>
+      </div>
+      <div class="lead-item">
+        <div class="lead-top">
+          <div class="lead-role">Data Science Member<span>IEEE Robotics &amp; Automation Society · VIT Chennai, India</span></div>
+          <div class="lead-when">JUL 2023 — APR 2025</div>
+        </div>
+        <ul class="xp-pts">
+          <li>Delivered technical sessions to <b>250+ students</b> on the math of AI — gradient descent, optimization, backpropagation.</li>
+          <li>Organized hackathons, robotics events, AWS DeepRacer competitions, and data science seminars.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="dual">
+      <div class="reveal">
+        <div class="sub-h">Achievements</div>
+        <div class="list-item">
+          <div class="li-title"><span class="award-tag">RUNNER-UP</span>Synthetix 2023 Hackathon</div>
+          <div class="li-meta">2023</div>
+          <div class="li-desc">CNN-based computer vision model for harmful object classification in real-world environments.</div>
+        </div>
+        <div class="list-item">
+          <div class="li-title"><span class="award-tag">TOP 5</span>Depondfi-24 Challenge</div>
+          <div class="li-meta">2024 · presented at NCVPRIPG'24</div>
+          <div class="li-desc">YOLO-based keypoint detection for underwater fish localization under adverse conditions.</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="sub-h">Certifications</div>
+        <div class="list-item"><div class="li-title">Advanced Computer Vision with TensorFlow</div><div class="li-meta">Coursera · 2024</div></div>
+        <div class="list-item"><div class="li-title">Microsoft Azure AI Fundamentals (AI-900)</div><div class="li-meta">Microsoft · 2024</div></div>
+        <div class="list-item"><div class="li-title">NLP with Classification &amp; Vector Spaces</div><div class="li-meta">Coursera · 2024</div></div>
+        <div class="list-item"><div class="li-title">Supervised ML — Regression &amp; Classification</div><div class="li-meta">Coursera · 2024</div></div>
+        <div class="list-item"><div class="li-title">NLP with Probabilistic Models</div><div class="li-meta">Coursera · 2024</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="f-big">Let's build something that <a href="mailto:sudeeshmuthum@gmail.com">sees clearly</a>.</div>
+    <!-- <div class="f-sub">Open to robotics, computer vision, and machine learning research and engineering roles.</div> -->
+    <div class="f-links">
+      <a class="btn solid" href="mailto:sudeeshmuthum@gmail.com">↗ Email me</a>
+      <a class="btn" href="https://github.com/Sudeesh07" data-link="github">GitHub</a>
+      <a class="btn" href="https://www.linkedin.com/in/sudeesh-m-66b88a202/" data-link="linkedin">LinkedIn</a>
+    </div>
+    <div class="f-note">Sudeesh Muthu Murugesan · Charlottesville, VA · M.S. Computer Science, University of Virginia</div>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%5*40)+'ms';io.observe(el)});
+</script>
+</body>
+</html>
