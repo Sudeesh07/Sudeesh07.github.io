@@ -67,6 +67,12 @@ nav{
 header{padding:90px 0 70px;position:relative}
 .eyebrow{font-family:var(--mono);font-size:12px;color:var(--signal);letter-spacing:.15em;text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:10px}
 .eyebrow::before{content:"";width:28px;height:1px;background:var(--signal)}
+/* ---- profile photo ---- */
+.hero-content{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:64px;align-items:center}
+.profile-photo{width:270px;height:270px;justify-self:end;border:1px solid var(--line-bright);border-radius:50%;overflow:hidden}
+.profile-photo img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:720px){.hero-content{grid-template-columns:1fr;gap:28px}.profile-photo{width:190px;height:190px;justify-self:start;order:-1}}
+
 h1{
   font-family:var(--disp);font-weight:700;
   font-size:clamp(2.6rem,7vw,5rem);
@@ -199,7 +205,9 @@ footer{border-top:1px solid var(--line);padding:54px 0 70px;text-align:center}
 
 <header>
   <div class="wrap">
-    <div class="eyebrow reveal">M.S. Computer Science · University of Virginia</div>
+    <div class="hero-content">
+      <div>
+        <div class="eyebrow reveal">M.S. Computer Science · University of Virginia</div>
     <h1 class="reveal">Sudeesh Muthu<br>Murugesan<span class="glow">.</span></h1>
     <p class="lede reveal">I build intelligent systems at the intersection of <em>robotics, computer vision, and machine learning</em> ranging from 3D scientific imaging to LiDAR perception and autonomous navigation.</p>
     <div class="hero-meta reveal">
@@ -210,6 +218,11 @@ footer{border-top:1px solid var(--line);padding:54px 0 70px;text-align:center}
       <a class="btn solid" href="mailto:sudeeshmuthum@gmail.com">↗ sudeeshmuthum@gmail.com</a>
       <a class="btn" href="https://github.com/Sudeesh07" data-link="github">GitHub</a>
       <a class="btn" href="https://www.linkedin.com/in/sudeesh-m-66b88a202/" data-link="linkedin">LinkedIn</a>
+        </div>
+      </div>
+      <div class="profile-photo reveal">
+        <img src="images/profile.jpg" alt="Sudeesh Muthu Murugesan">
+      </div>
     </div>
   </div>
 </header>
@@ -337,7 +350,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 70px;text-align:center}
       </div>
       <div class="skill-cell">
         <h4>Tools &amp; Platforms</h4>
-        <div class="chips"><span class="chip">Docker</span><span class="chip">Git</span><span class="chip">Linux</span><span class="chip">CUDA</span><span class="chip">SolidWorks</span><span class="chip">Tableau</span><span class="chip">Power BI</span></div>
+        <div class="chips"><span class="chip">Docker</span><span class="chip">Git</span><span class="chip">Linux</span><span class="chip">CUDA</span><span class="chip">Tableau</span><span class="chip">Power BI</span></div>
       </div>
       <div class="skill-cell">
         <h4>Research Areas</h4>
